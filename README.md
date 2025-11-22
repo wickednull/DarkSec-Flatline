@@ -43,7 +43,7 @@ sudo apt-get install zenity
 No complex installation is required. Simply clone this repository or download the `darksec-flatline.sh` script.
 
 ```bash
-git clone https://github.com/YourUsername/DarkSec-Flatline.git
+git clone https://github.com/wickednull/DarkSec-Flatline.git
 cd DarkSec-Flatline
 ```
 
@@ -104,6 +104,3 @@ Contributions are welcome! If you have suggestions for improvements or new featu
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-*This script was authored by Gemini CLI.*
