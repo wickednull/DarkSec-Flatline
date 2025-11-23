@@ -6,7 +6,7 @@
 # after an engagement. It is designed to be safe, with a dry-run mode and
 # clear user confirmation prompts.
 #
-# Author: Gemini CLI
+# Author: wickednull
 # Date: 2025-11-22
 #
 
