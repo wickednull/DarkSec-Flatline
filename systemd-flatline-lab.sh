@@ -129,13 +129,20 @@ confirm_and_get_choices() {
           TRUE "Wipe systemd Journalctl Logs" \
           TRUE "Clean Temporary Files & Cache" \
           TRUE "Flush Network Caches" \
-          FALSE "Perform a Dry-Run (No changes)" \
+          TRUE "Perform a Dry-Run (No changes)" \
           --separator=":" --width=600 --height=380) || exit 0
         if [[ "$SELECTION" == *"Perform a Dry-Run"* ]]; then
             DRY_RUN="true"; FORCE="false"
+        else
+            DRY_RUN="false"; FORCE="true"
         fi
         CHOICES=()
-        IFS=":" read -r -a CHOICES <<< "$SELECTION"
+        IFS=":" read -r -a TMP_CHOICES <<< "$SELECTION"
+        for choice in "${TMP_CHOICES[@]}"; do
+            if [[ "$choice" != "Perform a Dry-Run (No changes)" ]]; then
+                CHOICES+=("$choice")
+            fi
+        done
     else
         CHOICES=("Clear User Activity History" "Scrub Text-Based System Logs" "Wipe systemd Journalctl Logs" "Clean Temporary Files & Cache" "Flush Network Caches")
     fi
@@ -153,7 +160,7 @@ create_encrypted_archive() {
     for f in /var/log/auth.log /var/log/syslog /var/log/wtmp /var/log/btmp /var/log/lastlog; do
         [[ -e "$f" ]] && ARGS+=("$f")
     done
-    ARGS+=("/root/.bash_history" "/root/.zsh_history" "$HOME/.bash_history" "$HOME/.zsh_history" || true)
+    ARGS+=("/root/.bash_history" "/root/.zsh_history" "$HOME/.bash_history" "$HOME/.zsh_history")
     [[ -e /etc/ssh/sshd_config ]] && ARGS+=("/etc/ssh/sshd_config")
 
     # Deduplicate
@@ -263,6 +270,10 @@ simulate_service_interruptions() {
 # ----------------------------
 wipe_journalctl_real() {
     log_action "[*] Performing REAL journalctl wipe (destructive)..."
+    if [[ "$DRY_RUN" == "true" ]]; then
+        log_action "    (Dry-Run) Would wipe systemd journal"
+        return 0
+    fi
     systemctl stop systemd-journald || log_action "Warning: could not stop journald; continuing cautiously."
     rm -rf /var/log/journal/* || true
     rm -rf /run/log/journal/* || true
