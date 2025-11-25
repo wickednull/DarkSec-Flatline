@@ -1,8 +1,6 @@
 # DarkSec-Flatline
 ![image](https://github.com/user-attachments/assets/fab72aad-50d3-4046-b4aa-71f8579b249e)
 
-(https://github.com/wickednull/DarkSec-Flatline/releases/latest/download/flatline_banner.png)
-
 **A Post-Engagement Cleanup Utility for Security Professionals**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
