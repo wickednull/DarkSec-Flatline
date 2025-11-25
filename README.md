@@ -1,106 +1,152 @@
 # DarkSec-Flatline
-![image](https://github.com/user-attachments/assets/b931e925-d35f-44f7-9eed-404c3fca48d4)
 
-** A Post-Engagement Cleanup Utility for Security Professionals
+![DarkSec-Flatline](https://github.com/wickednull/DarkSec-Flatline/releases/latest/download/flatline_banner.png)
+
+**A Post-Engagement Cleanup Utility for Security Professionals**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Made with Bash](https://img.shields.shields.io/badge/Made%20with-Bash-1f425f.svg)](https://www.gnu.org/software/bash/)
+[![Made with Bash](https://img.shields.io/badge/Made%20with-Bash-1f425f.svg)](https://www.gnu.org/software/bash/)
+[![Release](https://img.shields.io/github/v/release/wickednull/DarkSec-Flatline?label=Latest%20Release)](https://github.com/wickednull/DarkSec-Flatline/releases)
+[![Stars](https://img.shields.io/github/stars/wickednull/DarkSec-Flatline?style=social)](https://github.com/wickednull/DarkSec-Flatline/stargazers)
+[![Forks](https://img.shields.io/github/forks/wickednull/DarkSec-Flatline?style=social)](https://github.com/wickednull/DarkSec-Flatline/network/members)
+[![OS](https://img.shields.io/badge/OS-Linux-blue)](https://www.linux.org/)
+[![Version](https://img.shields.io/badge/version-2.0-blueviolet)](https://github.com/wickednull/DarkSec-Flatline/releases)
 
 ---
 
-DarkSec-Flatline is a post-engagement cleanup utility designed for penetration testers, red teamers, and security professionals. It provides a simple and effective GUI-based method to remove traces of activity from a Linux workstation, helping to ensure operational security and digital hygiene.
+DarkSec-Flatline is a post-engagement cleanup utility designed for penetration testers, red teamers, and security professionals. It provides simple and effective methods to remove traces of activity from a Linux workstation, helping ensure operational security and digital hygiene. This repository contains three scripts:
+
+- `darksec-flatline` – Basic cleanup (CLI)
+- `systemd-flatline` – Advanced GUI cleanup
+- `systemd-flatline-lab` – LAB-only stealth cleanup for SOC/lab testing
+
+---
 
 ## ♰️ Disclaimer
 
-**This is a powerful tool that permanently deletes data from your system.** The authors are not responsible for any data loss or damage caused by the use of this script. **Use with extreme caution.** It is highly recommended to run the "Dry-Run" option first to understand what actions will be performed.
+These scripts are **powerful and can permanently delete or modify data**.  
+
+- **`darksec-flatline`**: Safe basic cleanup  
+- **`systemd-flatline`**: GUI-based advanced cleanup; always use Dry-Run first  
+- **`systemd-flatline-lab`**: LAB-only version with stealth simulation, timestomping, dummy processes, and optional `journalctl` wiping. **Must only be used in authorized lab environments**  
+
+The authors are not responsible for any data loss or damage caused by use. **Use with extreme caution.**
+
+---
 
 ## Features
 
-- **GUI-Based Operation:** Uses `zenity` to provide a user-friendly checklist of cleaning tasks.
-- **Selective Cleaning:** Choose exactly which cleanup tasks to perform.
-- **User History Removal:** Clears shell history (`bash`, `zsh`), editor history (`vim`, `nano`), and recent file lists.
-- **System Log Scrubbing:** Truncates critical system logs like `auth.log`, `syslog`, and others.
-- **Temporary File & Cache Deletion:** Wipes `/tmp`, user thumbnail caches, and the trash directory.
-- **Network Cache Flushing:** Clears the system's ARP and DNS caches.
-- **Safe Dry-Run Mode:** Simulate a cleanup operation without making any actual changes to the system, providing a report of actions that would have been taken.
-- **Root-Required:** Includes a check to ensure it is run with the necessary privileges.
+**Common Features (`darksec-flatline` & `systemd-flatline`)**  
+- GUI-Based Operation (`zenity` for `systemd-flatline`)  
+- Selective Cleaning  
+- User History Removal (`bash`, `zsh`, `vim`, `nano`, recent files)  
+- System Log Scrubbing (`auth.log`, `syslog`, `wtmp`, `btmp`, `lastlog`)  
+- Temporary File & Cache Deletion (`/tmp`, thumbnails, trash)  
+- Network Cache Flushing (ARP & DNS)  
+- Safe Dry-Run Mode  
+- Root Privileges Check  
+
+**Lab-Only Features (`systemd-flatline-lab`)**  
+- Stealth-Simulation: timestomping, dummy processes, service interruptions  
+- Lab Safety Checks: authorization phrase, lab-mode flag, multiple confirmations  
+- Artifact Archiving: optional GPG-encrypted logs  
+- Audit-Logged Simulation: signed report for SOC testing  
+- Optional Real Journal Wipe (LAB-only)
+
+---
 
 ## Requirements
 
-- A Debian/Ubuntu-based Linux distribution (due to specific log paths and utilities).
-- `bash`
-- `zenity` (to render the GUI)
-- `sudo` / root privileges
+- Debian/Ubuntu-based Linux distribution  
+- `bash`  
+- `zenity` (for GUI scripts)  
+- `sudo` / root privileges  
 
-To install `zenity` on a Debian-based system:
+Install `zenity` if missing:
+
 ```bash
 sudo apt-get update
 sudo apt-get install zenity
 ```
 
-## Installation
+---
 
-No complex installation is required. Simply clone this repository or download the `darksec-flatline.sh` script.
+## Installation
 
 ```bash
 git clone https://github.com/wickednull/DarkSec-Flatline.git
 cd DarkSec-Flatline
+chmod +x darksec-flatline
+chmod +x systemd-flatline
+chmod +x systemd-flatline-lab
 ```
 
-Then, make the script executable:
-```bash
-chmod +x darksec-flatline.sh
-```
+---
 
 ## Usage
 
-The script must be run with root privileges.
+**Basic Version:**
 
 ```bash
-sudo ./darksec-flatline.sh
+sudo ./darksec-flatline
 ```
 
-1.  A disclaimer will appear. You must agree to continue.
-2.  The main menu will load, presenting a checklist of available cleanup tasks.
-3.  Select the desired tasks and click "OK". It is highly recommended to leave **"Perform a Dry-Run"** checked for your first run.
-4.  A progress bar will show that the tasks are being executed.
-5.  Upon completion, a report will be displayed summarizing all actions performed.
+- Runs basic cleanup tasks  
+- Supports Dry-Run mode  
+- Simple CLI output
 
-<!--
-## Screenshots
+**GUI Version:**
 
-*Add screenshots of the GUI dialogs here to showcase the user interface.*
+```bash
+sudo ./systemd-flatline
+```
 
-**Main Menu:**
-![Main Menu](link-to-screenshot.png)
+1. Confirm the disclaimer  
+2. Select tasks from the GUI checklist (Dry-Run recommended first)  
+3. View progress and final report
 
-**Final Report:**
-![Final Report](link-to-screenshot.png)
--->
+**Lab-Only Version:**
+
+```bash
+sudo LAB_MODE=1 ./systemd-flatline-lab --stealth-sim --force
+```
+
+- Requires lab-mode authorization file `/etc/systemd-flatline-lab`  
+- Must type authorization phrase: `I AM AUTHORIZED LAB OPERATOR`  
+- Optional artifact archiving: `--archive`  
+- Simulation features only run after all lab checks pass  
+- **Warning:** Always use in a controlled lab environment. Stealth features must not be run on production systems
+
+---
 
 ## How It Works
 
-The script modularizes its cleaning operations into several distinct functions:
+- `clean_user_history` removes shell, editor, and recent file histories  
+- `scrub_logs` truncates system-level logs  
+- `clean_temp_files` deletes temporary files, caches, and trash  
+- `flush_network_caches` clears ARP and DNS caches  
+- Lab-only features (systemd-flatline-lab) include `simulate_timestomp_on_copies`, `spawn_dummy_processes`, `simulate_service_interruptions`, and `wipe_journalctl_real`  
 
-| Function | Description |
-| :--- | :--- |
-| `clean_user_history` | Removes traces of user commands and file access by deleting `~/.bash_history`, `~/.zsh_history`, `~/.viminfo`, `~/.nano_history`, and `~/.local/share/recently-used.xbel`. |
-| `scrub_logs` | Scrubs system-level logs by truncating them to zero bytes. This includes `/var/log/auth.log`, `/var/log/syslog`, `/var/log/wtmp`, `/var/log/btmp`, and `/var/log/lastlog`. |
-| `clean_temp_files` | Cleans temporary files and caches by recursively deleting the contents of `/tmp`, `~/.cache/thumbnails`, and `~/.local/share/Trash`. |
-| `flush_network_caches` | Removes network-related artifacts by flushing the system's ARP cache (`ip -s -s neigh flush all`) and DNS cache (using `systemd-resolve` or `resolvectl`). |
+All actions are logged to `/tmp/cleanup.log` and displayed in the final report (signed if GPG is available), then securely deleted.
 
-All actions are logged to `/tmp/cleanup.log`, which is displayed in the final report and then securely deleted.
+---
 
 ## Contributing
 
-Contributions are welcome! If you have suggestions for improvements or new features, please feel free to:
+Contributions are welcome! Fork, create a branch, commit changes, push, and open a Pull Request.
 
-1.  Fork the repository.
-2.  Create a new feature branch (`git checkout -b feature/AmazingFeature`).
-3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`).
-4.  Push to the branch (`git push origin feature/AmazingFeature`).
-5.  Open a Pull Request.
+---
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License
+
+---
+
+## Screenshots
+
+**Main Menu:**  
+![Main Menu](https://github.com/wickednull/DarkSec-Flatline/releases/latest/download/main_menu.png)
+
+**Final Report:**  
+![Final Report](https://github.com/wickednull/DarkSec-Flatline/releases/latest/download/final_report.png)
