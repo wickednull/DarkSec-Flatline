@@ -5,7 +5,6 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Made with Bash](https://img.shields.io/badge/Made%20with-Bash-1f425f.svg)](https://www.gnu.org/software/bash/)
-[![Release](https://img.shields.io/github/v/release/wickednull/DarkSec-Flatline?label=Latest%20Release)](https://github.com/wickednull/DarkSec-Flatline/releases)
 [![Stars](https://img.shields.io/github/stars/wickednull/DarkSec-Flatline?style=social)](https://github.com/wickednull/DarkSec-Flatline/stargazers)
 [![Forks](https://img.shields.io/github/forks/wickednull/DarkSec-Flatline?style=social)](https://github.com/wickednull/DarkSec-Flatline/network/members)
 [![OS](https://img.shields.io/badge/OS-Linux-blue)](https://www.linux.org/)
