@@ -30,6 +30,8 @@ These scripts are **powerful and can permanently delete or modify data**.
 
 The authors are not responsible for any data loss or damage caused by use. **Use with extreme caution.**
 
+DarkSec‑Flatline wasn’t built to turn attackers invisible on real production networks — that’s impossible with modern SIEMs, EDR hooks, and central logging. What it is built for is the real operational tasks security professionals deal with every day: cleaning staging boxes after a sanctioned engagement, resetting lab systems between attack simulations, wiping sensitive research artifacts, teaching log‑based OPSEC, and giving red‑teamers a fast way to return a machine to a clean state. It removes local artifacts like shell history, system logs, temp files, caches, and misc breadcrumbs that pile up during testing or exploitation work. In legit environments like homelabs, VMs, and post‑engagement jump hosts, Flatline saves time, keeps systems tidy, and helps with operational hygiene — without pretending to defeat enterprise‑grade monitoring.
+
 ---
 
 ## Features
